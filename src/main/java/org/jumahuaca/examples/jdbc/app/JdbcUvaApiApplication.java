@@ -2,7 +2,6 @@ package org.jumahuaca.examples.jdbc.app;
 
 import javax.sql.DataSource;
 
-import org.jdbi.v3.core.Jdbi;
 import org.jumahuaca.examples.jdbc.app.health.ExchangeHealthCheck;
 import org.jumahuaca.examples.jdbc.conf.JdbcUvaApiConfiguration;
 import org.jumahuaca.examples.jdbc.dao.JdbcPostgreSQLDataSource;
@@ -21,7 +20,7 @@ public class JdbcUvaApiApplication extends Application<JdbcUvaApiConfiguration> 
 	@Override
 	public void run(JdbcUvaApiConfiguration configuration, Environment environment) throws Exception {
 		final JdbiFactory factory = new JdbiFactory();
-		final Jdbi jdbi = factory.build(environment, configuration.getDataSourceFactory(), "postgresql");
+		factory.build(environment, configuration.getDataSourceFactory(), "postgresql");
 		DataSource ds = buildDatasource(configuration);
 		UVAExchangeResource exchangeResource = new UVAExchangeResource(new UvaExchangeDaoImpl(ds));
 		environment.jersey().register(exchangeResource);
