@@ -1,7 +1,5 @@
 package org.jumahuaca.examples.jdbc.dao;
 
-import org.jumahuaca.examples.jdbc.dao.JdbcCrudDaoTests;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -19,11 +17,13 @@ import org.jumahuaca.examples.jdbc.model.UVAExchange;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class JdbcExchangeDaoImplTests extends JdbcCrudDaoTests<UVAExchange,LocalDate>{
+public class JdbcExchangeDaoImplTests extends JdbcCrudDaoTests<UVAExchange, LocalDate>{
 
 	private static final int SIZE_SELECT_ALL = 2;
 
 	private UvaExchangeDaoImpl dao;
+	
+	private DaoInvocation<UVAExchange, LocalDate> daoInvocation;
 
 	private String testDay1 = "2017-01-01";
 
@@ -40,13 +40,14 @@ public class JdbcExchangeDaoImplTests extends JdbcCrudDaoTests<UVAExchange,Local
 	public void setup() throws SQLException {
 		stubDatasource();
 		dao = new UvaExchangeDaoImpl(ds);
+		daoInvocation = buildDaoInvocation();
 	}	
 
 	@Test
 	public void testFindExchangeByDayShouldWork() throws SQLException {
 		stubSelectOneQueryOk();
 		LocalDate param = LocalDate.parse(testDay1);
-		UVAExchange result = invokeDaoFindById(param);
+		UVAExchange result = daoInvocation.invokeDaoFindById(param);
 		assertThat(result.getDate()).isEqualTo(param);
 		assertThat(result.getRate()).isEqualTo(BigDecimal.valueOf(testRate1));
 		verifyResourceClose();
@@ -56,7 +57,7 @@ public class JdbcExchangeDaoImplTests extends JdbcCrudDaoTests<UVAExchange,Local
 	public void testFindExchangeByDayShouldNotFind() throws SQLException {
 		stubSelectOneQueryNotFound();
 		LocalDate param = LocalDate.parse(testDay2);
-		assertThrows(NotFoundException.class, () -> invokeDaoFindById(param));
+		assertThrows(NotFoundException.class, () -> daoInvocation.invokeDaoFindById(param));
 		verifyResourceClose();
 	}
 
@@ -64,14 +65,14 @@ public class JdbcExchangeDaoImplTests extends JdbcCrudDaoTests<UVAExchange,Local
 	public void testFindExchangeByDayShouldNotWork() throws SQLException {
 		stubSelectOneQueryError();
 		LocalDate param = LocalDate.parse(testDay3);
-		assertThrows(ServerErrorException.class, () -> invokeDaoFindById(param));
+		assertThrows(ServerErrorException.class, () -> daoInvocation.invokeDaoFindById(param));
 		verifyResourceClose();
 	}
 
 	@Test
 	public void testSearchAllShouldWork() throws SQLException {
 		stubSelectAllQueryOk();
-		List<UVAExchange> result = invokeDaoSearchAll();
+		List<UVAExchange> result = daoInvocation.invokeDaoSearchAll();
 		assertThat(result.size()).isEqualTo(SIZE_SELECT_ALL);
 		assertThat(result.get(0).getDate()).isEqualTo(testDay1);
 		assertThat(result.get(0).getRate()).isEqualTo(BigDecimal.valueOf(testRate1));
@@ -83,7 +84,7 @@ public class JdbcExchangeDaoImplTests extends JdbcCrudDaoTests<UVAExchange,Local
 	@Test
 	public void testSearchAllShouldNotFind() throws SQLException {
 		stubSelectAllNotFound();
-		List<UVAExchange> result = invokeDaoSearchAll();
+		List<UVAExchange> result = daoInvocation.invokeDaoSearchAll();
 		assertThat(result).isEmpty();
 		verifyResourceClose();
 	}
@@ -91,14 +92,14 @@ public class JdbcExchangeDaoImplTests extends JdbcCrudDaoTests<UVAExchange,Local
 	@Test
 	public void testSearchAllShouldNotWork() throws SQLException {
 		stubConnectionError();
-		assertThrows(ServerErrorException.class, () -> invokeDaoSearchAll());
+		assertThrows(ServerErrorException.class, () -> daoInvocation.invokeDaoSearchAll());
 		verifyConnectionClose();
 	}
 
 	@Test
 	public void testCreateShouldWork() throws SQLException {
 		stubQueryOk();
-		invokeDaoCreate(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1)));
+		daoInvocation.invokeDaoCreate(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1)));
 		verifyExecuteUpdate();
 		verifyResourceClose();
 	}
@@ -107,14 +108,14 @@ public class JdbcExchangeDaoImplTests extends JdbcCrudDaoTests<UVAExchange,Local
 	public void testCreateShouldNotWork() throws SQLException {
 		stubConnectionError();
 		assertThrows(ServerErrorException.class,
-				() -> invokeDaoCreate(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1))));
+				() -> daoInvocation.invokeDaoCreate(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1))));
 		verifyConnectionClose();
 	}
 	
 	@Test
 	public void testUpdateShouldWork() throws SQLException {
 		stubQueryOk();
-		invokeDaoUpdate(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1)));
+		daoInvocation.invokeDaoUpdate(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1)));
 		verifyExecuteUpdate();
 		verifyResourceClose();
 	}
@@ -123,14 +124,14 @@ public class JdbcExchangeDaoImplTests extends JdbcCrudDaoTests<UVAExchange,Local
 	public void testUpdateShouldNotWork() throws SQLException {
 		stubConnectionError();
 		assertThrows(ServerErrorException.class,
-				() -> invokeDaoUpdate(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1))));
+				() -> daoInvocation.invokeDaoUpdate(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1))));
 		verifyConnectionClose();
 	}
 	
 	@Test
 	public void testDeleteShouldWork() throws SQLException {
 		stubQueryOk();
-		invokeDaoDelete(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1)));
+		daoInvocation.invokeDaoDelete(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1)));
 		verifyConnectionClose();
 		verifyResourceClose();
 	}
@@ -139,7 +140,7 @@ public class JdbcExchangeDaoImplTests extends JdbcCrudDaoTests<UVAExchange,Local
 	public void testDeleteShouldNotWork() throws SQLException {
 		stubConnectionError();
 		assertThrows(ServerErrorException.class,
-				() -> invokeDaoDelete(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1))));
+				() -> daoInvocation.invokeDaoDelete(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1))));
 		verifyConnectionClose();
 	}
 
@@ -166,29 +167,7 @@ public class JdbcExchangeDaoImplTests extends JdbcCrudDaoTests<UVAExchange,Local
 	}
 
 	@Override
-	public List<UVAExchange> invokeDaoSearchAll() {
-		return dao.searchAll();
+	public DaoInvocation<UVAExchange, LocalDate> buildDaoInvocation() {
+		return new JdbcExchangeDaoInvocation(dao);		
 	}
-
-	@Override
-	public UVAExchange invokeDaoFindById(LocalDate id) {
-		return dao.findExchangeByDay(id);
-	}
-
-	@Override
-	public void invokeDaoCreate(UVAExchange entity) {
-		dao.create(entity);		
-	}
-
-	@Override
-	public void invokeDaoUpdate(UVAExchange entity) {
-		dao.update(entity);
-	}
-
-	@Override
-	public void invokeDaoDelete(UVAExchange entity) {
-		dao.delete(entity);
-	}
-
-
 }

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <uva_exchange exchange_day='2018-12-15' rate='30.6' />
+	<uva_exchange exchange_day='2018-12-14' rate='30.55' />	
+</dataset>
