@@ -5,10 +5,13 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
 	<changeSet author="mforlenza" id="changelog-1.0-0">
-		<preConditions>
-			<dbms type="postgresql"/>
+		<preConditions onFail="MARK_RAN">
+			<dbms type="postgresql" />
+			<not>
+				<tableExists tableName="uva_exchange" />
+			</not>
 		</preConditions>
-		<sqlFile path="org/jumahuaca/examples/db/changelog-1.0-0.sql"/>
+		<sqlFile path="changelog-1.0-0.sql" />
 	</changeSet>
 
 </databaseChangeLog>
