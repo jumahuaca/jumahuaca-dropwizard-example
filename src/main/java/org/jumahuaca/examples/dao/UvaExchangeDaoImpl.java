@@ -1,4 +1,4 @@
-package org.jumahuaca.examples.jdbc.dao;
+package org.jumahuaca.examples.dao;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 
 import org.jumahuaca.examples.exceptions.NotFoundException;
 import org.jumahuaca.examples.exceptions.ServerErrorException;
-import org.jumahuaca.examples.jdbc.model.UVAExchange;
+import org.jumahuaca.examples.model.UVAExchange;
 
 public class UvaExchangeDaoImpl implements UvaExchangeDao {
 

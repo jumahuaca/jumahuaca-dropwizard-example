@@ -1,9 +1,9 @@
-package org.jumahuaca.examples.jdbc.app.health;
+package org.jumahuaca.examples.app.health;
 
 import javax.ws.rs.core.Response;
 
-import org.jumahuaca.examples.jdbc.model.UVAExchange;
-import org.jumahuaca.examples.jdbc.resources.UVAExchangeResource;
+import org.jumahuaca.examples.model.UVAExchange;
+import org.jumahuaca.examples.resources.UVAExchangeResource;
 
 import com.codahale.metrics.health.HealthCheck;
 

@@ -1,4 +1,4 @@
-package org.jumahuaca.examples.jdbc.conf;
+package org.jumahuaca.examples.conf;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.dropwizard.db.DataSourceFactory;
 
-public class JdbcUvaApiConfiguration extends io.dropwizard.Configuration{
+public class DropwizardUvaApiConfiguration extends io.dropwizard.Configuration{
 	
 	private String quotationLastDay;
 	
@@ -21,7 +21,7 @@ public class JdbcUvaApiConfiguration extends io.dropwizard.Configuration{
     @NotNull
     private DataSourceFactory database = new DataSourceFactory();
 	
-	public JdbcUvaApiConfiguration() {
+	public DropwizardUvaApiConfiguration() {
 		super();
 	}
 
@@ -35,7 +35,7 @@ public class JdbcUvaApiConfiguration extends io.dropwizard.Configuration{
         return database;
     }
 
-	public JdbcUvaApiConfiguration(String quotationLastDay, String dateFormat) {
+	public DropwizardUvaApiConfiguration(String quotationLastDay, String dateFormat) {
 		super();
 		this.quotationLastDay = quotationLastDay;
 		this.dateFormat = dateFormat;

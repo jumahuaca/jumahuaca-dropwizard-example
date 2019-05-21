@@ -1,9 +1,9 @@
-package org.jumahuaca.examples.jdbc.dao;
+package org.jumahuaca.examples.dao;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import org.jumahuaca.examples.jdbc.model.UVAExchange;
+import org.jumahuaca.examples.model.UVAExchange;
 
 public interface UvaExchangeDao {
 	

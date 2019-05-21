@@ -1,4 +1,4 @@
-package org.jumahuaca.examples.jdbc.dao;
+package org.jumahuaca.examples.dao;
 
 import javax.sql.DataSource;
 

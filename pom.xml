@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.jumahuaca.examples</groupId>
-	<artifactId>jdbcuvaapi</artifactId>
+	<artifactId>dropwizarduvaapi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>jdbc-uba-api</name>
+	<name>dropwizard-uva-api</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>

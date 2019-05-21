@@ -11,9 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jumahuaca.examples.dao.UvaExchangeDaoImpl;
 import org.jumahuaca.examples.exceptions.NotFoundException;
 import org.jumahuaca.examples.exceptions.ServerErrorException;
-import org.jumahuaca.examples.jdbc.model.UVAExchange;
+import org.jumahuaca.examples.model.UVAExchange;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,12 +1,12 @@
-package org.jumahuaca.examples.jdbc.app;
+package org.jumahuaca.examples.app;
 
 import javax.sql.DataSource;
 
-import org.jumahuaca.examples.jdbc.app.health.ExchangeHealthCheck;
-import org.jumahuaca.examples.jdbc.conf.JdbcUvaApiConfiguration;
-import org.jumahuaca.examples.jdbc.dao.JdbcPostgreSQLDataSource;
-import org.jumahuaca.examples.jdbc.dao.UvaExchangeDaoImpl;
-import org.jumahuaca.examples.jdbc.resources.UVAExchangeResource;
+import org.jumahuaca.examples.app.health.ExchangeHealthCheck;
+import org.jumahuaca.examples.conf.DropwizardUvaApiConfiguration;
+import org.jumahuaca.examples.dao.JdbcPostgreSQLDataSource;
+import org.jumahuaca.examples.dao.UvaExchangeDaoImpl;
+import org.jumahuaca.examples.resources.UVAExchangeResource;
 
 import io.dropwizard.Application;
 import io.dropwizard.db.PooledDataSourceFactory;
@@ -15,10 +15,10 @@ import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
-public class JdbcUvaApiApplication extends Application<JdbcUvaApiConfiguration> {
+public class DropwizardUvaApiApplication extends Application<DropwizardUvaApiConfiguration> {
 
 	@Override
-	public void run(JdbcUvaApiConfiguration configuration, Environment environment) throws Exception {
+	public void run(DropwizardUvaApiConfiguration configuration, Environment environment) throws Exception {
 		final JdbiFactory factory = new JdbiFactory();
 		factory.build(environment, configuration.getDataSourceFactory(), "postgresql");
 		DataSource ds = buildDatasource(configuration);
@@ -29,7 +29,7 @@ public class JdbcUvaApiApplication extends Application<JdbcUvaApiConfiguration> 
 	}
 	
 
-	private DataSource buildDatasource(JdbcUvaApiConfiguration configuration) {
+	private DataSource buildDatasource(DropwizardUvaApiConfiguration configuration) {
 		String url = configuration.getDataSourceFactory().getUrl();
 		String user = configuration.getJdbcUser();
 		String password = configuration.getJdbcPassword();
@@ -39,21 +39,21 @@ public class JdbcUvaApiApplication extends Application<JdbcUvaApiConfiguration> 
 
 	@Override
 	public String getName() {
-		return "jdbc-uva-api";
+		return "dropwizard-uva-api";
 	}
 
 	@Override
-	public void initialize(Bootstrap<JdbcUvaApiConfiguration> bootstrap) {
-		bootstrap.addBundle(new MigrationsBundle<JdbcUvaApiConfiguration>() {
+	public void initialize(Bootstrap<DropwizardUvaApiConfiguration> bootstrap) {
+		bootstrap.addBundle(new MigrationsBundle<DropwizardUvaApiConfiguration>() {
 			@Override
-			public PooledDataSourceFactory getDataSourceFactory(JdbcUvaApiConfiguration configuration) {
+			public PooledDataSourceFactory getDataSourceFactory(DropwizardUvaApiConfiguration configuration) {
 				return configuration.getDataSourceFactory();
 			}
 		});
 	}
 
 	public static void main(String[] args) throws Exception {
-		new JdbcUvaApiApplication().run(args);
+		new DropwizardUvaApiApplication().run(args);
 	}
 
 }

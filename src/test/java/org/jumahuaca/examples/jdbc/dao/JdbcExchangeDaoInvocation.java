@@ -3,7 +3,8 @@ package org.jumahuaca.examples.jdbc.dao;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.jumahuaca.examples.jdbc.model.UVAExchange;
+import org.jumahuaca.examples.dao.UvaExchangeDao;
+import org.jumahuaca.examples.model.UVAExchange;
 
 public class JdbcExchangeDaoInvocation implements DaoInvocation<UVAExchange, LocalDate> {
 

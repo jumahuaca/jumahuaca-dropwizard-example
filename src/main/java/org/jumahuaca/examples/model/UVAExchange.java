@@ -1,4 +1,4 @@
-package org.jumahuaca.examples.jdbc.model;
+package org.jumahuaca.examples.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package org.jumahuaca.examples.jdbc.resources;
+package org.jumahuaca.examples.resources;
 
 import java.time.LocalDate;
 
@@ -12,10 +12,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.jumahuaca.examples.dao.UvaExchangeDao;
 import org.jumahuaca.examples.exceptions.NotFoundException;
 import org.jumahuaca.examples.exceptions.ServerErrorException;
-import org.jumahuaca.examples.jdbc.dao.UvaExchangeDao;
-import org.jumahuaca.examples.jdbc.model.UVAExchange;
+import org.jumahuaca.examples.model.UVAExchange;
 
 @Path(PathConstants.RESOURCE_VERSION+"exchange")
 @Produces(MediaType.APPLICATION_JSON)

@@ -8,9 +8,11 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.jumahuaca.examples.dao.UvaExchangeDao;
+import org.jumahuaca.examples.dao.UvaExchangeDaoImpl;
 import org.jumahuaca.examples.exceptions.NotFoundException;
 import org.jumahuaca.examples.exceptions.ServerErrorException;
-import org.jumahuaca.examples.jdbc.model.UVAExchange;
+import org.jumahuaca.examples.model.UVAExchange;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;

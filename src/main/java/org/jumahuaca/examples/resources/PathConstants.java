@@ -1,4 +1,4 @@
-package org.jumahuaca.examples.jdbc.resources;
+package org.jumahuaca.examples.resources;
 
 public interface PathConstants {
 	
