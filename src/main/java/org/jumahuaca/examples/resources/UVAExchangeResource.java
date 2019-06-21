@@ -1,5 +1,6 @@
 package org.jumahuaca.examples.resources;
 
+import static org.jumahuaca.examples.resources.PathConstants.*;
 import java.time.LocalDate;
 
 import javax.ws.rs.DELETE;
@@ -17,7 +18,7 @@ import org.jumahuaca.examples.exceptions.NotFoundException;
 import org.jumahuaca.examples.exceptions.ServerErrorException;
 import org.jumahuaca.examples.model.UVAExchange;
 
-@Path(PathConstants.RESOURCE_VERSION+"exchange")
+@Path(RESOURCE_VERSION+UVA_EXCHANGE_ROOT_PATH)
 @Produces(MediaType.APPLICATION_JSON)
 public class UVAExchangeResource {
 
@@ -28,7 +29,7 @@ public class UVAExchangeResource {
 	}
 	
 	@GET
-	@Path("all")
+	@Path(UVA_EXCHANGE_GET_ALL_PATH)
 	public Response getAllExchanges() {
 		try {
 			return Response.ok(dao.searchAll()).build();			
@@ -40,7 +41,7 @@ public class UVAExchangeResource {
 	}
 
 	@GET
-	@Path("/{year}/{month}/{day}")
+	@Path(UVA_EXCHANGE_GET_ONE_PATH+UVA_EXCHANGE_GET_ONE_PARAMS)
 	public Response getExchange(@PathParam("year") Integer year, @PathParam("month") Integer month,
 			@PathParam("day") Integer day) {
 		LocalDate date = LocalDate.of(year, month, day);
@@ -56,7 +57,7 @@ public class UVAExchangeResource {
 	}
 	
 	@POST
-	@Path("/")
+	@Path(UVA_EXCHANGE_POST_PATH)
 	public Response post(UVAExchange exchange) {
 		try {
 			dao.create(exchange);
@@ -69,7 +70,7 @@ public class UVAExchangeResource {
 	}
 	
 	@PUT
-	@Path("/")
+	@Path(UVA_EXCHANGE_PUT_PATH)
 	public Response put(UVAExchange exchange) {
 		try {
 			dao.update(exchange);
@@ -82,13 +83,19 @@ public class UVAExchangeResource {
 	}
 	
 	@DELETE
-	@Path("/")
-	public Response remove(UVAExchange exchange) {
+	@Path(UVA_EXCHANGE_REMOVE_PATH+UVA_EXCHANGE_REMOVE_PARAMS)
+	public Response remove(@PathParam("year") Integer year, @PathParam("month") Integer month,
+			@PathParam("day") Integer day) 
+	{
 		try {
-			dao.delete(exchange);
+			LocalDate date = LocalDate.of(year, month, day);
+			UVAExchange toDelete = dao.findExchangeByDay(date);
+			dao.delete(toDelete);
 			return Response.ok().build();
 		} catch (ServerErrorException e) {
 			return Response.serverError().entity("Uknown error. Can not remove exchange").build();
+		}catch (NotFoundException e) {
+	        return Response.status(Response.Status.NOT_FOUND).entity("Exchange not found for deleting ").build();
 		}catch(Exception e) {
 			return Response.serverError().entity("Invocation error. Can not remove exchange").build();			
 		}

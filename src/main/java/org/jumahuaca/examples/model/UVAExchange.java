@@ -36,6 +36,7 @@ public class UVAExchange {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime * result + ((rate == null) ? 0 : rate.hashCode());
 		return result;
 	}
 
@@ -53,7 +54,14 @@ public class UVAExchange {
 				return false;
 		} else if (!date.equals(other.date))
 			return false;
+		if (rate == null) {
+			if (other.rate != null)
+				return false;
+		} else if (!rate.equals(other.rate))
+			return false;
 		return true;
 	}
+
+	
 
 }
