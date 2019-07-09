@@ -1,27 +1,24 @@
 package org.jumahuaca.examples.dropwizard.jersey;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.jumahuaca.assertions.ResponseStatusAssert.assertResponse200;
 import static org.jumahuaca.assertions.ResponseStatusAssert.assertResponse404;
 import static org.jumahuaca.assertions.ResponseStatusAssert.assertResponse500;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.jumahuaca.examples.resources.PathConstants.UVA_EXCHANGE_DAY_PARAM;
 import static org.jumahuaca.examples.resources.PathConstants.UVA_EXCHANGE_GET_ALL_PATH;
 import static org.jumahuaca.examples.resources.PathConstants.UVA_EXCHANGE_GET_ONE_PARAMS;
 import static org.jumahuaca.examples.resources.PathConstants.UVA_EXCHANGE_GET_ONE_PATH;
 import static org.jumahuaca.examples.resources.PathConstants.UVA_EXCHANGE_MONTH_PARAM;
-import static org.jumahuaca.examples.resources.PathConstants.UVA_EXCHANGE_ROOT_PATH;
-import static org.jumahuaca.examples.resources.PathConstants.UVA_EXCHANGE_YEAR_PARAM;
 import static org.jumahuaca.examples.resources.PathConstants.UVA_EXCHANGE_POST_PATH;
 import static org.jumahuaca.examples.resources.PathConstants.UVA_EXCHANGE_PUT_PATH;
-import static org.jumahuaca.examples.resources.PathConstants.UVA_EXCHANGE_REMOVE_PATH;
 import static org.jumahuaca.examples.resources.PathConstants.UVA_EXCHANGE_REMOVE_PARAMS;
-
-import static org.mockito.Mockito.when;
+import static org.jumahuaca.examples.resources.PathConstants.UVA_EXCHANGE_REMOVE_PATH;
+import static org.jumahuaca.examples.resources.PathConstants.UVA_EXCHANGE_ROOT_PATH;
+import static org.jumahuaca.examples.resources.PathConstants.UVA_EXCHANGE_YEAR_PARAM;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.doThrow;
-
-
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -34,6 +31,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.jumahuaca.examples.dao.UvaExchangeDao;
 import org.jumahuaca.examples.dao.UvaExchangeDaoImpl;
 import org.jumahuaca.examples.exceptions.NotFoundException;
 import org.jumahuaca.examples.exceptions.ServerErrorException;
@@ -55,7 +53,7 @@ public class DropwizardJerseyExchangeResourceTests {
 	
 	private static final String PREFIX = PathConstants.RESOURCE_VERSION+UVA_EXCHANGE_ROOT_PATH;
 	
-	public static UvaExchangeDaoImpl dao = Mockito.mock(UvaExchangeDaoImpl.class);
+	public static UvaExchangeDao dao = Mockito.mock(UvaExchangeDaoImpl.class);
 	
 	private String testDay1 = "2016-03-31";
 	

@@ -5,8 +5,12 @@ import javax.sql.DataSource;
 import org.jumahuaca.examples.app.health.ExchangeHealthCheck;
 import org.jumahuaca.examples.conf.DropwizardUvaApiConfiguration;
 import org.jumahuaca.examples.dao.JdbcPostgreSQLDataSource;
+import org.jumahuaca.examples.dao.UvaExchangeDao;
 import org.jumahuaca.examples.dao.UvaExchangeDaoImpl;
+import org.jumahuaca.examples.dao.UvaScrapingProcessDaoImpl;
 import org.jumahuaca.examples.resources.UVAExchangeResource;
+import org.jumahuaca.examples.resources.UVAScraperResource;
+import org.jumahuaca.examples.scraper.UVAScraper;
 
 import io.dropwizard.Application;
 import io.dropwizard.db.PooledDataSourceFactory;
@@ -22,8 +26,12 @@ public class DropwizardUvaApiApplication extends Application<DropwizardUvaApiCon
 		final JdbiFactory factory = new JdbiFactory();
 		factory.build(environment, configuration.getDataSourceFactory(), "postgresql");
 		DataSource ds = buildDatasource(configuration);
-		UVAExchangeResource exchangeResource = new UVAExchangeResource(new UvaExchangeDaoImpl(ds));
+		UvaExchangeDao exchangeDao = new UvaExchangeDaoImpl(ds);
+		UVAExchangeResource exchangeResource = new UVAExchangeResource(exchangeDao);
+		UVAScraper scraper = new UVAScraper();
+		UVAScraperResource scraperResource = new UVAScraperResource(new UvaScrapingProcessDaoImpl(ds), exchangeDao,scraper);
 		environment.jersey().register(exchangeResource);
+		environment.jersey().register(scraperResource);
 		environment.healthChecks().register("Exchange", new ExchangeHealthCheck(exchangeResource));
 
 	}

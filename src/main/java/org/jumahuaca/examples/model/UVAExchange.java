@@ -62,6 +62,13 @@ public class UVAExchange {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "UVAExchange [date=" + date + ", rate=" + rate + "]";
+	}
+	
+	
+
 	
 
 }

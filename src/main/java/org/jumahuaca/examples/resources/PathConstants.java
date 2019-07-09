@@ -6,6 +6,8 @@ public interface PathConstants {
 	
 	public static final String UVA_EXCHANGE_ROOT_PATH = "exchange";
 	
+	public static final String UVA_SCRAPER_ROOT_PATH = "scraper";
+	
 	public static final String UVA_EXCHANGE_GET_ALL_PATH = "/all";
 	
 	public static final String UVA_EXCHANGE_GET_ONE_PATH = "/";
@@ -25,6 +27,9 @@ public interface PathConstants {
 	public static final String UVA_EXCHANGE_REMOVE_PATH = "/";
 	
 	public static final String UVA_EXCHANGE_REMOVE_PARAMS = "{year}/{month}/{day}";
+	
+	public static final String UVA_SCRAPER_POST_PATH = "/program-scraping";
+
 
 
 
