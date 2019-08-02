@@ -48,8 +48,6 @@ import org.mockito.Mockito;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import io.dropwizard.testing.junit5.ResourceExtension;
 
-
-
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoubleHelper<UVAExchange> {
 	
@@ -90,21 +88,21 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 		List<UVAExchange> result = response.readEntity(new GenericType<List<UVAExchange>>() {});
 		assertResponse200(response);
 		assertThat(result).isEqualTo(mockedResult);
-		resetStubbedDao();
+		resetMockedDao();
 	}
 	
 	@Test
 	public void requestAllUVAExchangeShouldNotWorkBecauseOfServerError() {
 		Response response = extension.requestAllShouldNotWorkBecauseOfServerError(this, PREFIX+UVA_EXCHANGE_GET_ALL_PATH, resources);
 		assertResponse500(response);
-		resetStubbedDao();
+		resetMockedDao();
 	}
 	
 	@Test
 	public void requestAllUVAExchangeShouldNotWorkBecauseOfUnknownError() throws SQLException {
 		Response response = extension.requestAllShouldNotWorkBecauseOfUnknownError(this, PREFIX+UVA_EXCHANGE_GET_ALL_PATH, resources);
 		assertResponse500(response);
-		resetStubbedDao();
+		resetMockedDao();
 	}
 	
 	@Test
@@ -119,7 +117,7 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 		UVAExchange result = response.readEntity(UVAExchange.class);
 		assertResponse200(response);
 		assertThat(result).isEqualTo(mockedResult);
-		resetStubbedDao();
+		resetMockedDao();
 	}
 	
 	@Test
@@ -130,7 +128,7 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 		templateResolver.put(UVA_EXCHANGE_DAY_PARAM, testDay1DayParam);
 		Response response = extension.requestOneShouldNotWorkBecauseOfServerError(this, PREFIX+UVA_EXCHANGE_GET_ONE_PATH+UVA_EXCHANGE_GET_ONE_PARAMS, resources, templateResolver);
 		assertResponse500(response);
-		resetStubbedDao();
+		resetMockedDao();
 	}
 	
 	@Test
@@ -141,7 +139,7 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 		templateResolver.put(UVA_EXCHANGE_DAY_PARAM, testDay1DayParam);
 		Response response = extension.requestOneShouldNotWorkBecauseOfNotFoundError(this, PREFIX+UVA_EXCHANGE_GET_ONE_PATH+UVA_EXCHANGE_GET_ONE_PARAMS, resources, templateResolver);
 		assertResponse404(response);
-		resetStubbedDao();		
+		resetMockedDao();		
 	}
 	
 	@Test
@@ -152,7 +150,7 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 		templateResolver.put(UVA_EXCHANGE_DAY_PARAM, testDay1DayParam);
 		Response response = extension.requestOneShouldNotWorkBecauseOfUknownError(this, PREFIX+UVA_EXCHANGE_GET_ONE_PATH+UVA_EXCHANGE_GET_ONE_PARAMS, resources, templateResolver);
 		assertResponse500(response);
-		resetStubbedDao();		
+		resetMockedDao();		
 	}
 	
 	@Test
@@ -161,7 +159,7 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 		Response response = extension.postShouldWork(this, PREFIX+UVA_EXCHANGE_POST_PATH, resources);
 		assertResponse200(response);
 		verify(dao).create(mockedResult);		
-		resetStubbedDao();		
+		resetMockedDao();		
 	}
 	
 	@Test
@@ -170,7 +168,7 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 		Response response =  extension.postShouldNotWorkBecauseOfServerError(this, PREFIX+UVA_EXCHANGE_POST_PATH, resources);
 		assertResponse500(response);
 		verify(dao).create(mockedResult);		
-		resetStubbedDao();		
+		resetMockedDao();		
 	}
 	
 	@Test
@@ -179,7 +177,7 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 		Response response =  extension.postShouldNotWorkBecauseOfUknownError(this, PREFIX+UVA_EXCHANGE_POST_PATH, resources);
 		assertResponse500(response);
 		verify(dao).create(mockedResult);		
-		resetStubbedDao();
+		resetMockedDao();
 	}
 	
 	@Test
@@ -188,7 +186,7 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 		Response response = extension.putShouldWork(this, PREFIX+UVA_EXCHANGE_PUT_PATH, resources);
 		assertResponse200(response);
 		verify(dao).update(mockedResult);		
-		resetStubbedDao();	
+		resetMockedDao();	
 	}
 	
 	@Test
@@ -197,7 +195,7 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 		Response response =  extension.putShouldNotWorkBecauseOfServerError(this, PREFIX+UVA_EXCHANGE_PUT_PATH, resources);
 		assertResponse500(response);
 		verify(dao).update(mockedResult);		
-		resetStubbedDao();		
+		resetMockedDao();		
 	}
 	
 	@Test
@@ -206,7 +204,7 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 		Response response =  extension.putShouldNotWorkBecauseOfUknownError(this, PREFIX+UVA_EXCHANGE_PUT_PATH, resources);
 		assertResponse500(response);
 		verify(dao).update(mockedResult);		
-		resetStubbedDao();
+		resetMockedDao();
 	}
 	
 	@Test
@@ -219,7 +217,7 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 		Response response =  extension.deleteShouldWork(this, PREFIX+UVA_EXCHANGE_REMOVE_PATH + UVA_EXCHANGE_REMOVE_PARAMS, resources, templateResolver);
 		assertResponse200(response);
 		verify(dao).delete(mockedResult);		
-		resetStubbedDao();
+		resetMockedDao();
 	}
 	
 	@Test
@@ -232,7 +230,7 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 		Response response =  extension.deleteShouldNotWorkBecauseOfServerError(this, PREFIX+UVA_EXCHANGE_REMOVE_PATH + UVA_EXCHANGE_REMOVE_PARAMS, resources, templateResolver);
 		assertResponse500(response);
 		verify(dao).delete(mockedResult);		
-		resetStubbedDao();
+		resetMockedDao();
 	}
 	
 	@Test
@@ -245,7 +243,7 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 		Response response =  extension.deleteShouldNotWorkBecauseOfUknownError(this, PREFIX+UVA_EXCHANGE_REMOVE_PATH + UVA_EXCHANGE_REMOVE_PARAMS, resources, templateResolver);
 		assertResponse500(response);
 		verify(dao).delete(mockedResult);		
-		resetStubbedDao();
+		resetMockedDao();
 	}
 	
 	@Test
@@ -256,10 +254,10 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 		templateResolver.put(UVA_EXCHANGE_DAY_PARAM, testDay1DayParam);
 		Response response =  extension.deleteShouldNotWorkBecauseOfNotFoundError(this, PREFIX+UVA_EXCHANGE_REMOVE_PATH + UVA_EXCHANGE_REMOVE_PARAMS, resources, templateResolver);
 		assertResponse404(response);
-		resetStubbedDao();
+		resetMockedDao();
 	}
 
-	private void resetStubbedDao() {
+	private void resetMockedDao() {
 		Mockito.reset(dao);
 	}
 
@@ -273,17 +271,17 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 	}
 
 	@Override
-	public void stubRepositoryFindAllOk(List<UVAExchange> mockedResult) {
+	public void mockRepositoryFindAllOk(List<UVAExchange> mockedResult) {
 		when(dao.searchAll()).thenReturn(mockedResult);
 	}
 
 	@Override
-	public void stubRepositoryFindAllNotFound() {
+	public void mockRepositoryFindAllNotFound() {
 		throw new UnsupportedOperationException();		
 	}
 
 	@Override
-	public void stubRepositoryFindAllError() {
+	public void mockRepositoryFindAllError() {
 		when(dao.searchAll()).thenThrow(ServerErrorException.class);		
 	}
 
@@ -293,70 +291,70 @@ public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoub
 	}
 
 	@Override
-	public void stubRepositoryFindByIdOk(UVAExchange mockedResult) {
+	public void mockRepositoryFindByIdOk(UVAExchange mockedResult) {
 		when(dao.findExchangeByDay(mockedResult.getDate())).thenReturn(mockedResult);
 	}
 
 	@Override
-	public void stubRepositoryFindByIdNotFound(UVAExchange mockedResult) {
+	public void mockRepositoryFindByIdNotFound(UVAExchange mockedResult) {
 		when(dao.findExchangeByDay(mockedResult.getDate())).thenThrow(NotFoundException.class);		
 	}
 
 	@Override
-	public void stubRepositoryUpdateOk(UVAExchange mockedResult) {
+	public void mockRepositoryUpdateOk(UVAExchange mockedResult) {
 		doNothing().when(dao).update(mockedResult);
 	}
 
 	@Override
-	public void stubRepositoryUpdateError(UVAExchange mockedResult) {
+	public void mockRepositoryUpdateError(UVAExchange mockedResult) {
 		doThrow(ServerErrorException.class).when(dao).update(mockedResult);	
 	}
 
 	@Override
-	public void stubRepositoryDeleteOk(UVAExchange mockedResult) {
+	public void mockRepositoryDeleteOk(UVAExchange mockedResult) {
 		when(dao.findExchangeByDay(mockedResult.getDate())).thenReturn(mockedResult);
 		doNothing().when(dao).delete(mockedResult);		
 	}
 
 	@Override
-	public void stubRepositoryDeleteError(UVAExchange mockedResult) {
+	public void mockRepositoryDeleteError(UVAExchange mockedResult) {
 		when(dao.findExchangeByDay(mockedResult.getDate())).thenReturn(mockedResult);
 		doThrow(ServerErrorException.class).when(dao).delete(mockedResult);			
 	}
 
 	@Override
-	public void stubRepositoryFindByIdError(UVAExchange mockedResult) {
+	public void mockRepositoryFindByIdError(UVAExchange mockedResult) {
 		when(dao.findExchangeByDay(mockedResult.getDate())).thenThrow(RuntimeException.class);		
 	}
 
 	@Override
-	public void stubRepositoryCreateOk(UVAExchange mockedResult) {
+	public void mockRepositoryCreateOk(UVAExchange mockedResult) {
 		doNothing().when(dao).create(mockedResult);
 	}
 
 	@Override
-	public void stubRepositoryCreateServerError(UVAExchange mockedResult) {
+	public void mockRepositoryCreateServerError(UVAExchange mockedResult) {
 		doThrow(ServerErrorException.class).when(dao).create(mockedResult);	
 	}
 
 	@Override
-	public void stubRepositoryCreateUknownError(UVAExchange mockedResult) {
+	public void mockRepositoryCreateUknownError(UVAExchange mockedResult) {
 		doThrow(RuntimeException.class).when(dao).create(mockedResult);	
 	}
 
 	@Override
-	public void stubRepositoryUpdateUknownError(UVAExchange mockedResult) {
+	public void mockRepositoryUpdateUknownError(UVAExchange mockedResult) {
 		doThrow(RuntimeException.class).when(dao).update(mockedResult);	
 	}
 
 	@Override
-	public void stubRepositoryDeleteUknownError(UVAExchange mockedResult) {
+	public void mockRepositoryDeleteUknownError(UVAExchange mockedResult) {
 		when(dao.findExchangeByDay(mockedResult.getDate())).thenReturn(mockedResult);
 		doThrow(RuntimeException.class).when(dao).delete(mockedResult);			
 	}
 
 	@Override
-	public void stubRepositoryDeleteNotFoundError(UVAExchange mockedResult) {
+	public void mockRepositoryDeleteNotFoundError(UVAExchange mockedResult) {
 		when(dao.findExchangeByDay(mockedResult.getDate())).thenThrow(NotFoundException.class);		
 	}
 }

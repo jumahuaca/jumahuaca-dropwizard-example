@@ -78,9 +78,9 @@ private static final String PREFIX = PathConstants.RESOURCE_VERSION+UVA_SCRAPER_
 		process.setStatus(UVAScrapingProcessStatus.CREATED);
 		process.setProcessDate(LocalDateTime.now());
 				
-		stubProcessCreationOk(process);
-		stubProcessUpdateOk();
-		stubScrapingError(TEST_YEAR, TEST_MONTH);
+		mockProcessCreationOk(process);
+		mockProcessUpdateOk();
+		mockScrapingError(TEST_YEAR, TEST_MONTH);
 		
 		Future<Response> futureResponse = mockedResources.target(PREFIX+UVA_SCRAPER_POST_PATH).request().async().
 				post(Entity.entity(monthYear, MediaType.APPLICATION_JSON));
@@ -88,18 +88,18 @@ private static final String PREFIX = PathConstants.RESOURCE_VERSION+UVA_SCRAPER_
 		Thread.sleep(ESTIMATED_TIME_TO_COMPLETE);
 		assertThat(response.readEntity(String.class)).isEqualTo(OK_RESULT);
 		verifyProcessUpdateOk(process);
-		resetStubbedDao();
+		resetMockedDao();
 	}
 	
-	private void stubScrapingError(Integer year, Integer month) throws FailingHttpStatusCodeException, MalformedURLException, IOException {
+	private void mockScrapingError(Integer year, Integer month) throws FailingHttpStatusCodeException, MalformedURLException, IOException {
 		doThrow(IOException.class).when(scraper).scrap(year, month);		
 	}
 
-	private void stubProcessCreationOk(UVAScrapingProcess process) {
+	private void mockProcessCreationOk(UVAScrapingProcess process) {
 		when(daoProcess.createAndReturn(process)).thenReturn(Integer.valueOf(1));
 	}
 	
-	private void stubProcessUpdateOk() {
+	private void mockProcessUpdateOk() {
 		doNothing().when(daoProcess).update(any(UVAScrapingProcess.class));
 	}
 
@@ -109,7 +109,7 @@ private static final String PREFIX = PathConstants.RESOURCE_VERSION+UVA_SCRAPER_
 		verify(daoProcess).update(argThat((arg) -> arg.getStatus().equals(UVAScrapingProcessStatus.ERROR)));
 	}
 	
-	private void resetStubbedDao() {
+	private void resetMockedDao() {
 		Mockito.reset(daoProcess);
 		Mockito.reset(daoExchange);
 	}

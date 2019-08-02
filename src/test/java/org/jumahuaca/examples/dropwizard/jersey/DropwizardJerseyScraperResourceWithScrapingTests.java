@@ -42,7 +42,6 @@ import org.jumahuaca.examples.resources.PathConstants;
 import org.jumahuaca.examples.resources.UVAScraperResource;
 import org.jumahuaca.examples.scraper.UVAScraper;
 import org.jumahuaca.util.IntegrationTest;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockito.Mockito;
@@ -82,10 +81,10 @@ public class DropwizardJerseyScraperResourceWithScrapingTests {
 		process.setStatus(UVAScrapingProcessStatus.CREATED);
 		process.setProcessDate(LocalDateTime.now());
 
-		stubProcessCreationOk(process);
-		stubProcessUpdateOk();
-		stubFindUvaThrowsNotFound();
-		stubCreateUvaOk();
+		mockProcessCreationOk(process);
+		mockProcessUpdateOk();
+		mockFindUvaThrowsNotFound();
+		mockCreateUvaOk();
 
 		Future<Response> futureResponse = resources.target(PREFIX + UVA_SCRAPER_POST_PATH).request().async()
 				.post(Entity.entity(monthYear, MediaType.APPLICATION_JSON));
@@ -94,7 +93,7 @@ public class DropwizardJerseyScraperResourceWithScrapingTests {
 		assertThat(response.readEntity(String.class)).isEqualTo(OK_RESULT);
 		verifyProcessUpdateOk(process);
 		verifyAllCreations(fakeSomeUVAExchanges());
-		resetStubbedDao();
+		resetMockedDao();
 	}
 
 	@IntegrationTest
@@ -108,11 +107,11 @@ public class DropwizardJerseyScraperResourceWithScrapingTests {
 		process.setStatus(UVAScrapingProcessStatus.CREATED);
 		process.setProcessDate(LocalDateTime.now());
 
-		stubProcessCreationOk(process);
-		stubProcessUpdateOk();
-		stubFindUva();
-		stubDeleteUvaOk();
-		stubCreateUvaOk();
+		mockProcessCreationOk(process);
+		mockProcessUpdateOk();
+		mockFindUva();
+		mockDeleteUvaOk();
+		mockCreateUvaOk();
 
 		Future<Response> futureResponse = resources.target(PREFIX + UVA_SCRAPER_POST_PATH).request().async()
 				.post(Entity.entity(monthYear, MediaType.APPLICATION_JSON));
@@ -122,13 +121,13 @@ public class DropwizardJerseyScraperResourceWithScrapingTests {
 		verifyProcessUpdateOk(process);
 		verifyAllDeletions(fakeSomeUVAExchanges());
 		verifyAllCreations(fakeSomeUVAExchanges());
-		resetStubbedDao();
+		resetMockedDao();
 	}
 
-	private void stubFindUva() {
-		Map<LocalDate, UVAExchange> mapToStub = fakeSomeUVAExchangesByDate();
-		for (LocalDate date : mapToStub.keySet()) {
-			when(daoExchange.findExchangeByDay(date)).thenReturn(mapToStub.get(date));
+	private void mockFindUva() {
+		Map<LocalDate, UVAExchange> mapToMock = fakeSomeUVAExchangesByDate();
+		for (LocalDate date : mapToMock.keySet()) {
+			when(daoExchange.findExchangeByDay(date)).thenReturn(mapToMock.get(date));
 		}
 
 	}
@@ -143,16 +142,16 @@ public class DropwizardJerseyScraperResourceWithScrapingTests {
 		process.setStatus(UVAScrapingProcessStatus.RUNNING);
 		process.setProcessDate(LocalDateTime.now());
 
-		stubProcessCreationError(process);
+		mockProcessCreationError(process);
 
 		Future<Response> futureResponse = resources.target(PREFIX + UVA_SCRAPER_POST_PATH).request().async()
 				.post(Entity.entity(monthYear, MediaType.APPLICATION_JSON));
 		Response response = futureResponse.get();
 		assertThat(response.getStatus()).isEqualTo(Status.INTERNAL_SERVER_ERROR.getStatusCode());
-		resetStubbedDao();
+		resetMockedDao();
 	}
 
-	private void stubProcessCreationError(UVAScrapingProcess process) {
+	private void mockProcessCreationError(UVAScrapingProcess process) {
 		doThrow(ServerErrorException.class).when(daoProcess).createAndReturn(any(UVAScrapingProcess.class));
 	}
 
@@ -168,15 +167,15 @@ public class DropwizardJerseyScraperResourceWithScrapingTests {
 		}
 	}
 
-	private void stubCreateUvaOk() {
+	private void mockCreateUvaOk() {
 		doNothing().when(daoExchange).create(any(UVAExchange.class));
 	}
 
-	private void stubDeleteUvaOk() {
+	private void mockDeleteUvaOk() {
 		doNothing().when(daoExchange).delete(any(UVAExchange.class));
 	}
 
-	private void stubFindUvaThrowsNotFound() {
+	private void mockFindUvaThrowsNotFound() {
 		when(daoExchange.findExchangeByDay(any(LocalDate.class))).thenThrow(NotFoundException.class);
 
 	}
@@ -186,16 +185,16 @@ public class DropwizardJerseyScraperResourceWithScrapingTests {
 		verify(daoProcess).update(argThat((arg) -> arg.getStatus().equals(UVAScrapingProcessStatus.FINISHED)));
 	}
 
-	private void stubProcessUpdateOk() {
+	private void mockProcessUpdateOk() {
 		doNothing().when(daoProcess).update(any(UVAScrapingProcess.class));
 
 	}
 
-	private void stubProcessCreationOk(UVAScrapingProcess process) {
+	private void mockProcessCreationOk(UVAScrapingProcess process) {
 		when(daoProcess.createAndReturn(process)).thenReturn(Integer.valueOf(1));
 	}
 
-	private void resetStubbedDao() {
+	private void resetMockedDao() {
 		Mockito.reset(daoProcess);
 		Mockito.reset(daoExchange);
 	}

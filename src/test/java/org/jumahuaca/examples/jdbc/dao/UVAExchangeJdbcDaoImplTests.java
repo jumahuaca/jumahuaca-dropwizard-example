@@ -58,13 +58,13 @@ public class UVAExchangeJdbcDaoImplTests {
 
 	@BeforeEach
 	public void setup() throws SQLException {
-		extension.stubDatasource(ds,connection);
+		extension.mockDatasource(ds,connection);
 		dao = new UvaExchangeDaoImpl(ds);
 	}	
 
 	@Test
 	public void testFindExchangeByDayShouldWork() throws SQLException {
-		extension.stubSelectOneQueryOk(ps, rs, connection, stubSelectOneResultSet());
+		extension.mockSelectOneQueryOk(ps, rs, connection, mockSelectOneResultSet());
 		LocalDate param = LocalDate.parse(testDay1);
 		UVAExchange result = dao.findExchangeByDay(param);
 		assertThat(result.getDate()).isEqualTo(param);
@@ -74,7 +74,7 @@ public class UVAExchangeJdbcDaoImplTests {
 
 	@Test
 	public void testFindExchangeByDayShouldNotFind() throws SQLException {
-		extension.stubSelectOneQueryNotFound(ps, connection, rs);
+		extension.mockSelectOneQueryNotFound(ps, connection, rs);
 		LocalDate param = LocalDate.parse(testDay2);
 		assertThrows(NotFoundException.class, () -> dao.findExchangeByDay(param));
 		extension.verifyResourceClose(ps, connection);
@@ -82,7 +82,7 @@ public class UVAExchangeJdbcDaoImplTests {
 
 	@Test
 	public void testFindExchangeByDayShouldNotWork() throws SQLException {
-		extension.stubSelectOneQueryError(ps, connection, rs);
+		extension.mockSelectOneQueryError(ps, connection, rs);
 		LocalDate param = LocalDate.parse(testDay3);
 		assertThrows(ServerErrorException.class, () -> dao.findExchangeByDay(param));
 		extension.verifyResourceClose(ps, connection);
@@ -90,7 +90,7 @@ public class UVAExchangeJdbcDaoImplTests {
 
 	@Test
 	public void testSearchAllShouldWork() throws SQLException {
-		extension.stubSelectAllQueryOk(ps, connection, rs, stubSelectAllResultSet());
+		extension.mockSelectAllQueryOk(ps, connection, rs, mockSelectAllResultSet());
 		List<UVAExchange> result = dao.searchAll();
 		assertThat(result.size()).isEqualTo(SIZE_SELECT_ALL);
 		assertThat(result.get(0).getDate()).isEqualTo(testDay1);
@@ -102,7 +102,7 @@ public class UVAExchangeJdbcDaoImplTests {
 
 	@Test
 	public void testSearchAllShouldNotFind() throws SQLException {
-		extension.stubSelectAllNotFound(ps, connection, rs);
+		extension.mockSelectAllNotFound(ps, connection, rs);
 		List<UVAExchange> result = dao.searchAll();
 		assertThat(result).isEmpty();
 		extension.verifyResourceClose(ps, connection);
@@ -110,14 +110,14 @@ public class UVAExchangeJdbcDaoImplTests {
 
 	@Test
 	public void testSearchAllShouldNotWork() throws SQLException {
-		extension.stubConnectionError(connection);
+		extension.mockConnectionError(connection);
 		assertThrows(ServerErrorException.class, () -> dao.searchAll());
 		extension.verifyConnectionClose(connection);
 	}
 
 	@Test
 	public void testCreateShouldWork() throws SQLException {
-		extension.stubQueryOk(connection, ps);
+		extension.mockQueryOk(connection, ps);
 		dao.create(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1)));
 		extension.verifyExecuteUpdate(ps);
 		extension.verifyResourceClose(ps, connection);
@@ -125,7 +125,7 @@ public class UVAExchangeJdbcDaoImplTests {
 
 	@Test
 	public void testCreateShouldNotWork() throws SQLException {
-		extension.stubConnectionError(connection);
+		extension.mockConnectionError(connection);
 		assertThrows(ServerErrorException.class,
 				() -> dao.create(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1))));
 		extension.verifyConnectionClose(connection);
@@ -133,7 +133,7 @@ public class UVAExchangeJdbcDaoImplTests {
 	
 	@Test
 	public void testUpdateShouldWork() throws SQLException {
-		extension.stubQueryOk(connection, ps);
+		extension.mockQueryOk(connection, ps);
 		dao.update(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1)));
 		extension.verifyExecuteUpdate(ps);
 		extension.verifyResourceClose(ps, connection);
@@ -141,7 +141,7 @@ public class UVAExchangeJdbcDaoImplTests {
 
 	@Test
 	public void testUpdateShouldNotWork() throws SQLException {
-		extension.stubConnectionError(connection);
+		extension.mockConnectionError(connection);
 		assertThrows(ServerErrorException.class,
 				() -> dao.update(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1))));
 		extension.verifyConnectionClose(connection);
@@ -149,7 +149,7 @@ public class UVAExchangeJdbcDaoImplTests {
 	
 	@Test
 	public void testDeleteShouldWork() throws SQLException {
-		extension.stubQueryOk(connection, ps);
+		extension.mockQueryOk(connection, ps);
 		dao.delete(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1)));
 		extension.verifyConnectionClose(connection);
 		extension.verifyResourceClose(ps, connection);
@@ -157,20 +157,20 @@ public class UVAExchangeJdbcDaoImplTests {
 
 	@Test
 	public void testDeleteShouldNotWork() throws SQLException {
-		extension.stubConnectionError(connection);
+		extension.mockConnectionError(connection);
 		assertThrows(ServerErrorException.class,
 				() -> dao.delete(new UVAExchange(LocalDate.parse(testDay1), BigDecimal.valueOf(testRate1))));
 		extension.verifyConnectionClose(connection);
 	}
 
-	public Map<String, Object> stubSelectOneResultSet() {
+	public Map<String, Object> mockSelectOneResultSet() {
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("exchange_day", testDay1);
 		result.put("rate", testRate1);
 		return result;
 	}
 
-	public Map<String, List<Object>> stubSelectAllResultSet() {
+	public Map<String, List<Object>> mockSelectAllResultSet() {
 		List<Object> days = new ArrayList<Object>();
 		days.add(testDay1);
 		days.add(testDay2);
