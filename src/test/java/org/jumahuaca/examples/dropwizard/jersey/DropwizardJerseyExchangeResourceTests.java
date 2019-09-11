@@ -39,7 +39,7 @@ import org.jumahuaca.examples.model.UVAExchange;
 import org.jumahuaca.examples.resources.PathConstants;
 import org.jumahuaca.examples.resources.UVAExchangeResource;
 import org.jumahuaca.extensions.DropwizardResourceCrudExtension;
-import org.jumahuaca.extensions.HttpWebServiceDoubleHelper;
+import org.jumahuaca.extensions.HttpWebServiceTestDoubleHelper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -49,7 +49,7 @@ import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import io.dropwizard.testing.junit5.ResourceExtension;
 
 @ExtendWith(DropwizardExtensionsSupport.class)
-public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceDoubleHelper<UVAExchange> {
+public class DropwizardJerseyExchangeResourceTests implements HttpWebServiceTestDoubleHelper<UVAExchange> {
 	
 	private static final String PREFIX = PathConstants.RESOURCE_VERSION+UVA_EXCHANGE_ROOT_PATH;
 	
