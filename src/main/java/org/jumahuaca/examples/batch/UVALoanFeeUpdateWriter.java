@@ -2,8 +2,15 @@ package org.jumahuaca.examples.batch;
 
 import org.easybatch.core.record.Batch;
 import org.easybatch.core.writer.RecordWriter;
+import org.jumahuaca.examples.dao.UvaLoanFeeDao;
 
 public class UVALoanFeeUpdateWriter implements RecordWriter{
+	
+	private UvaLoanFeeDao feeDao;
+
+	public UVALoanFeeUpdateWriter(UvaLoanFeeDao feeDao) {
+		this.feeDao = feeDao;
+	}
 
 	@Override
 	public void open() throws Exception {

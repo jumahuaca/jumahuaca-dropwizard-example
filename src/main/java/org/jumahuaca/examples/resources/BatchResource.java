@@ -1,14 +1,37 @@
 package org.jumahuaca.examples.resources;
 
+import static org.jumahuaca.examples.resources.PathConstants.BATCH_ROOT_PATH;
 import static org.jumahuaca.examples.resources.PathConstants.RESOURCE_VERSION;
-import static org.jumahuaca.examples.resources.PathConstants.UVA_EXCHANGE_ROOT_PATH;
+import static org.jumahuaca.examples.resources.PathConstants.UVA_UPDATE_FEES_POST_PATH;
 
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-@Path(RESOURCE_VERSION+UVA_EXCHANGE_ROOT_PATH)
+import org.jumahuaca.examples.batch.UVALoanFeeUpdateJobLauncher;
+
+@Path(RESOURCE_VERSION+BATCH_ROOT_PATH)
 @Produces(MediaType.APPLICATION_JSON)
 public class BatchResource {
+	
+	private UVALoanFeeUpdateJobLauncher launcher;
+	
+	public BatchResource(UVALoanFeeUpdateJobLauncher launcher) {
+		super();
+		this.launcher = launcher;
+	}
+
+	@POST
+	@Path(UVA_UPDATE_FEES_POST_PATH)
+	public Response updateFeed(Integer loanId) {
+		try {
+			launcher.runJob(loanId);
+			return Response.ok().build();
+		} catch(Exception e) {
+			return Response.serverError().entity("Error running batch.").build();			
+		}
+	}
 
 }

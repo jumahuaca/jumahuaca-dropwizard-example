@@ -26,8 +26,6 @@ public class UVALoanFee implements Serializable {
 
 	private BigDecimal finalTotal;
 
-	private UVALoan loan;
-
 	public UVALoanFeeId getId() {
 		return id;
 	}
@@ -92,14 +90,6 @@ public class UVALoanFee implements Serializable {
 		this.finalTotal = finalTotal;
 	}
 
-	public UVALoan getLoan() {
-		return loan;
-	}
-
-	public void setLoan(UVALoan loan) {
-		this.loan = loan;
-	}
-
 	public LocalDate getFeeDate() {
 		return feeDate;
 	}
@@ -120,7 +110,6 @@ public class UVALoanFee implements Serializable {
 		result = prime * result + ((initialCapital == null) ? 0 : initialCapital.hashCode());
 		result = prime * result + ((initialInterest == null) ? 0 : initialInterest.hashCode());
 		result = prime * result + ((initialTotal == null) ? 0 : initialTotal.hashCode());
-		result = prime * result + ((loan == null) ? 0 : loan.hashCode());
 		return result;
 	}
 
@@ -173,22 +162,6 @@ public class UVALoanFee implements Serializable {
 				return false;
 		} else if (!initialTotal.equals(other.initialTotal))
 			return false;
-		if (loan == null) {
-			if (other.loan != null)
-				return false;
-		} else if (!loan.equals(other.loan))
-			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "UVALoanFee [id=" + id + ", loanId=" + loanId + ", feeDate=" + feeDate + ", initialCapital="
-				+ initialCapital + ", initialInterest=" + initialInterest + ", initialTotal=" + initialTotal
-				+ ", finalCapital=" + finalCapital + ", finalInterest=" + finalInterest + ", finalTotal=" + finalTotal
-				+ ", loan=" + loan + "]";
-	}
-	
-	
-
 }

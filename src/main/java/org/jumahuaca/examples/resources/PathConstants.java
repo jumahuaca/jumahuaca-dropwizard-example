@@ -8,6 +8,8 @@ public interface PathConstants {
 	
 	public static final String UVA_SCRAPER_ROOT_PATH = "scraper";
 	
+	public static final String BATCH_ROOT_PATH = "batch";	
+	
 	public static final String UVA_EXCHANGE_GET_ALL_PATH = "/all";
 	
 	public static final String UVA_EXCHANGE_GET_ONE_PATH = "/";
@@ -30,11 +32,5 @@ public interface PathConstants {
 	
 	public static final String UVA_SCRAPER_POST_PATH = "/program-scraping";
 
-
-
-
-
-
-
-
+	public static final String UVA_UPDATE_FEES_POST_PATH = "/update-fees";
 }
