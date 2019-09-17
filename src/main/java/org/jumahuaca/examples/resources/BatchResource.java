@@ -10,10 +10,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.easybatch.core.job.JobReport;
+import org.easybatch.core.job.JobStatus;
 import org.jumahuaca.examples.batch.UVALoanFeeUpdateJobLauncher;
 
 @Path(RESOURCE_VERSION+BATCH_ROOT_PATH)
-@Produces(MediaType.APPLICATION_JSON)
+@Produces(MediaType.TEXT_PLAIN)
 public class BatchResource {
 	
 	private UVALoanFeeUpdateJobLauncher launcher;
@@ -27,8 +29,11 @@ public class BatchResource {
 	@Path(UVA_UPDATE_FEES_POST_PATH)
 	public Response updateFeed(Integer loanId) {
 		try {
-			launcher.runJob(loanId);
-			return Response.ok().build();
+			JobReport report = launcher.runJob(loanId);
+			if(report.getStatus().equals(JobStatus.COMPLETED)) {
+				return Response.ok().build();				
+			}
+			return Response.serverError().entity("Batch did not complete").build();			
 		} catch(Exception e) {
 			return Response.serverError().entity("Error running batch.").build();			
 		}

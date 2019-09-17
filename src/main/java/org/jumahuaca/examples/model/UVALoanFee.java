@@ -25,6 +25,8 @@ public class UVALoanFee implements Serializable {
 	private BigDecimal finalInterest;
 
 	private BigDecimal finalTotal;
+	
+	private LocalDate loanDate;
 
 	public UVALoanFeeId getId() {
 		return id;
@@ -96,6 +98,14 @@ public class UVALoanFee implements Serializable {
 
 	public void setFeeDate(LocalDate feeDate) {
 		this.feeDate = feeDate;
+	}
+	
+	public LocalDate getLoanDate() {
+		return loanDate;
+	}
+
+	public void setLoanDate(LocalDate loanDate) {
+		this.loanDate = loanDate;
 	}
 
 	@Override

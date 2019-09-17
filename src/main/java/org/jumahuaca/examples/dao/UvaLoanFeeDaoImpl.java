@@ -32,7 +32,8 @@ public class UvaLoanFeeDaoImpl implements UvaLoanFeeDao {
 		PreparedStatement pst = null;
 		try {
 			conn = ds.getConnection();
-			pst = conn.prepareStatement("SELECT loan_id, fee_number, fee_date, initial_capital, initial_interest, initial_total, final_capital, final_interest, final_total  FROM uva_loan_fee where loan_id = ?");
+			pst = conn.prepareStatement("SELECT f.loan_id, f.fee_number, f.fee_date, f.initial_capital, f.initial_interest, "
+					+ "f.initial_total, f.final_capital, f.final_interest, f.final_total, u.loan_date FROM uva_loan_fee f inner join uva_loan u on f.loan_id = u.id where f.loan_id = ?");
 			pst.setInt(1, loanId);
 
 			ResultSet rs = pst.executeQuery();
@@ -44,6 +45,7 @@ public class UvaLoanFeeDaoImpl implements UvaLoanFeeDao {
 			BigDecimal finalCapital = null;
 			BigDecimal finalInterest = null;
 			BigDecimal finalTotal = null;
+			LocalDate loanDate = null;
 			while (rs.next()) {
 				feeNumber = rs.getInt("fee_number");
 				feeDate = LocalDate.parse(rs.getString("fee_date"));
@@ -56,6 +58,7 @@ public class UvaLoanFeeDaoImpl implements UvaLoanFeeDao {
 				finalCapital = finalCapitalAux!=null?BigDecimal.valueOf(finalCapitalAux):null;
 				finalInterest = finalInterestAux!=null?BigDecimal.valueOf(finalInterestAux):null;
 				finalTotal = finalTotalAux!=null?BigDecimal.valueOf(finalTotalAux):null;
+				loanDate = LocalDate.parse(rs.getString("loan_date"));
 				UVALoanFeeId id = new UVALoanFeeId();
 				id.setLoanId(loanId);
 				id.setFeeNumber(feeNumber);
@@ -68,6 +71,7 @@ public class UvaLoanFeeDaoImpl implements UvaLoanFeeDao {
 				fee.setFinalCapital(finalCapital);
 				fee.setFinalInterest(finalInterest);
 				fee.setFinalTotal(finalTotal);				
+				fee.setLoanDate(loanDate);
 				result.add(fee);
 			}
 		} catch (SQLException e) {
