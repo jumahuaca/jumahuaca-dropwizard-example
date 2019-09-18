@@ -50,7 +50,7 @@ public class UvaLoanFeeDaoImpl implements UvaLoanFeeDao {
 				feeNumber = rs.getInt("fee_number");
 				feeDate = LocalDate.parse(rs.getString("fee_date"));
 				initialCapital = BigDecimal.valueOf(rs.getDouble("initial_capital"));
-				initialInterest = BigDecimal.valueOf(rs.getDouble("initial_capital"));
+				initialInterest = BigDecimal.valueOf(rs.getDouble("initial_interest"));
 				initialTotal = BigDecimal.valueOf(rs.getDouble("initial_total"));
 				Double finalCapitalAux = rs.getDouble("final_capital");
 				Double finalInterestAux = rs.getDouble("final_interest");
