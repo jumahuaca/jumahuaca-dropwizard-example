@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <uva_exchange exchange_day='2017-09-20' rate='20.06' />
+    <uva_exchange exchange_day='2017-11-10' rate='20.62' />
+    <uva_exchange exchange_day='2017-12-11' rate='20.93' />
+    <uva_exchange exchange_day='2018-01-10' rate='21.26' />
+    <uva_loan id='1' loan_date='2017-09-20' loan_dni_holder='21111111' loan_dni_coholder='31111111' pesos_value='1132800.0' uva_value='56470.59'/>
+    <uva_loan_fee loan_id='1' fee_number='1' fee_date='2017-11-10' initial_capital='3265.78' initial_interest='5539.86' initial_total='8805.64' final_capital='3356.948335' final_interest='5694.512124' final_total='9051.460459'/>
+    <uva_loan_fee loan_id='1' fee_number='2' fee_date='2017-12-11' initial_capital='3275.31' initial_interest='3294.47' initial_total='6569.78'/>
+    <uva_loan_fee loan_id='1' fee_number='3' fee_date='2018-01-10' initial_capital='3284.86' initial_interest='3284.92' initial_total='6569.78'/>
+    
+</dataset>
