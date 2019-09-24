@@ -72,6 +72,7 @@ public class UvaLoanFeeDaoImpl implements UvaLoanFeeDao {
 				fee.setFinalInterest(finalInterest);
 				fee.setFinalTotal(finalTotal);				
 				fee.setLoanDate(loanDate);
+				fee.setLoanId(loanId);
 				result.add(fee);
 			}
 		} catch (SQLException e) {
