@@ -1,9 +1,9 @@
-CREATE TABLE uva_exchange(
+CREATE TABLE IF NOT EXISTS uva_exchange(
 	exchange_day DATE PRIMARY KEY,
 	rate numeric(10,2) NOT NULL
 );
 
-CREATE TABLE uva_loan (
+CREATE TABLE IF NOT EXISTS uva_loan (
 	id int NOT NULL,
 	loan_date date NOT NULL,
 	loan_dni_holder int NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE uva_loan (
 	CONSTRAINT uva_loan_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE uva_loan_fee (
+CREATE TABLE IF NOT EXISTS uva_loan_fee (
 	loan_id int NOT NULL,
 	fee_number int NOT NULL,
 	fee_date date NOT NULL,
