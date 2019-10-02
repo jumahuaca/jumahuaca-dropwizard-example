@@ -23,7 +23,7 @@ import org.jumahuaca.util.IntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-public class UVALoanFeeUpdateBatchJobIntegrationTests {
+public class UVALoanFeeUpdateEasyBatchJobIntegrationTests {
 
 
 	private static final int LOAN_DATE_YEAR = 2017;
