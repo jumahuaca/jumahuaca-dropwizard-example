@@ -1,4 +1,4 @@
-package org.jumahuaca.examples.jdbc.dao;
+package org.jumahuaca.examples.batch;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,6 +16,7 @@ import org.jumahuaca.examples.dao.UvaExchangeDao;
 import org.jumahuaca.examples.dao.UvaExchangeDaoImpl;
 import org.jumahuaca.examples.dao.UvaLoanFeeDao;
 import org.jumahuaca.examples.dao.UvaLoanFeeDaoImpl;
+import org.jumahuaca.examples.jdbc.dao.InMemoryDatasource;
 import org.jumahuaca.examples.model.UVALoanFee;
 import org.jumahuaca.examples.model.UVALoanFeeId;
 import org.jumahuaca.extensions.JdbcIntegrationExtension;

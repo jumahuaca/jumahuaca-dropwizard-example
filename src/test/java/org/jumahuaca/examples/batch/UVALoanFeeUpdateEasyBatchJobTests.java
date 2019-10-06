@@ -1,4 +1,4 @@
-package org.jumahuaca.examples.jdbc.dao;
+package org.jumahuaca.examples.batch;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.argThat;
