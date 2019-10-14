@@ -28,6 +28,9 @@
             <version>1.2.0</version>
           </dependency>
         </dependencies>
+        <configuration>
+          <useSystemClassLoader>false</useSystemClassLoader>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
@@ -66,32 +69,6 @@
       </plugin>
     </plugins>
   </build>
-  <profiles>
-    <profile>
-      <id>no-shade</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.21.0</version>
-            <configuration>
-              <forkCount>0</forkCount>
-            </configuration>
-          </plugin>
-          <plugin>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>2.3</version>
-            <executions>
-              <execution>
-                <id>shade-exec</id>
-                <phase>none</phase>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
   <dependencies>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
