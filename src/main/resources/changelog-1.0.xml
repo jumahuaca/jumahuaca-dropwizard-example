@@ -13,5 +13,13 @@
 		</preConditions>
 		<sqlFile path="changelog-1.0-0.sql" />
 	</changeSet>
+	
+	<changeSet author="mforlenza" id="changelog-1.0-1" failOnError="false">
+		<preConditions onFail="MARK_RAN">
+			<dbms type="postgresql" />
+				<sqlCheck expectedResult="0">select count(*) from uva_loan</sqlCheck>
+		</preConditions>
+		<sqlFile path="changelog-1.0-1.sql" />
+	</changeSet>
 
 </databaseChangeLog>
