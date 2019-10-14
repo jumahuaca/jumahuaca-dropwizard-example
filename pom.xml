@@ -138,6 +138,9 @@
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.21.0</version>
+<!-- 				<configuration> -->
+<!-- 					<forkCount>0</forkCount> -->
+<!-- 				</configuration> -->
 				<dependencies>
 					<dependency>
 						<groupId>org.junit.platform</groupId>
@@ -162,10 +165,14 @@
 							</excludes>
 						</filter>
 					</filters>
+
 				</configuration>
 				<executions>
 					<execution>
+						<id>shade-exec</id>
 						<phase>package</phase>
+<!-- 						<phase>none</phase> this disables plugin -->
+						
 						<goals>
 							<goal>shade</goal>
 						</goals>
@@ -178,6 +185,7 @@
 									<mainClass>org.jumahuaca.examples.app.DropwizardUvaApiApplication</mainClass>
 								</transformer>
 							</transformers>
+							<shadeTestJar>true</shadeTestJar>
 						</configuration>
 					</execution>
 				</executions>
